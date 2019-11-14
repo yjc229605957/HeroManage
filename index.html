@@ -250,32 +250,42 @@
 
   //三.编辑英雄
   //   1.点击编辑按钮 去到编辑页面
-  $('tbody').on('click','.btn-primary',function(){
-    
+  $('tbody').on('click', '.btn-primary', function () {
+
     // 注意: 在点击编辑按钮,那个点击事件中. 修改location.hreft那里, url后面要带过去当前这条数据的id.          
-    window.location = './edit.html?id='+$(this).next().attr('data-id')
+    window.location = './edit.html?id=' + $(this).next().attr('data-id')
   })
-  
+
 
   //四.查找英雄
-  $('.btn-default').on('click',function(e){
+  $('.btn-default').on('click', function (e) {
     e.preventDefault();
     var search = $('.form-control').val().trim();
-    var arr = []
-    $.ajax({
-      url: 'http://localhost:4399/hero/all',
-      success: function(Data){
-        console.log(Data);
-        console.log($(Data)[0].data)
-        for(let i=0;i<$(Data)[0].data.length;i++){
-          console.log(i);
-          if($(Data)[0].data[i].name.indexOf(search) != -1){
-            arr.push($(Data)[0].data[i])
+    if (search == '全部') {
+      getHero()
+    } else if (search != '') {
+      var arr = []
+      $.ajax({
+        url: 'http://localhost:4399/hero/all',
+        success: function (Data) {
+          console.log(Data);
+          console.log($(Data)[0].data)
+          for (let i = 0; i < $(Data)[0].data.length; i++) {
+            console.log(i);
+            if ($(Data)[0].data[i].name.indexOf(search) != -1) {
+              arr.push($(Data)[0].data[i])
+            }
           }
+          if (arr == '') {
+            alert('查找不到此英雄')
+            return;
+          }
+          var newHtml = template('search', { list: arr })
+          $('tbody').html(newHtml)
         }
-        var newHtml = template('search',{list:arr})
-        $('tbody').html(newHtml)
-      }
-    })
+      })
+    } else {
+      alert('请输入搜索关键字')
+    }
   })
 </script>
