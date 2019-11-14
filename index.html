@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bootstrap 101 Template</title>
+
+  <!-- Bootstrap -->
+  <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <style>
+    .wrap {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/bg03.jpg') center bottom no-repeat;
+      overflow: auto;
+    }
+
+    .navbar-brand {
+      padding: 10px 15px;
+    }
+
+    .logout {
+      font-weight: 900;
+      font-size: 20px;
+      color: #ff0000;
+      text-decoration: none;
+    }
+
+    .logout:hover {
+      text-decoration: none;
+      color: yellowgreen;
+    }
+
+    #my-table th {
+      text-align: center;
+    }
+
+    #my-table td {
+      text-align: center;
+      line-height: 80px;
+      padding: 0;
+      padding: 10px;
+    }
+
+    td img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .username {
+      font-weight: 900;
+      color: hotpink;
+      background-color: yellowgreen;
+    }
+
+    .pagination {
+      margin: 0px;
+      padding: 0px;
+      font-size: 0;
+      line-height: 1;
+    }
+
+    .pagination li {
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    .mp15 {
+      margin-top: 15px;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table-bordered>thead>tr>td,
+    .table-bordered>thead>tr>th {
+      border-bottom-width: 1px;
+    }
+
+    .page-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <nav class="navbar  navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mymenu">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <div class="row">
+                <div class="col-md-6 page-title">英雄列表</div>
+                <div class="col-md-6 text-right">当前位置：首页</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <!-- action 不写 就是当前页面 method 不写 就是 get -->
+              <div class="row">
+                <div class="col-md-9">
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">英雄姓名</div>
+                        <input type="text" value="" class="form-control" name="search" placeholder="请输入查询内容" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">查找</button>
+                  </form>
+                </div>
+                <div class="col-md-3">
+                  <a href="./add.html" class="btn btn-success pull-right">新增</a>
+                </div>
+              </div>
+              <table id="my-table" class="table table-bordered mp15">
+                <thead>
+                  <tr>
+                    <th width="25%">头像</th>
+                    <th width="25%">姓名</th>
+                    <th width="25%">技能</th>
+                    <th width="25%">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="./lib/bootstrap/js/jquery-1.12.4.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="./lib/js/template-web.js"></script>
+<!-- 所有英雄的渲染模板 -->
+<script type="text/html" id="cq">
+  {{each data v}}
+  <!--  遍历的数据可以取别名 v. -->
+    <tr>
+      <td><img src="{{v.icon}}" alt="" /></td>
+      <td>{{v.name}}</td>
+      <td>{{v.skill}}</td>
+      <td>
+        <button onclick="location.href='./edit.html'" class="btn btn-primary">编辑</button>
+        <button data-id= '{{v.id}}' class="btn btn-danger">删除</button>
+      </td>
+    </tr>
+  {{/each}}
+</script>
+
+<!-- 搜索功能的渲染模板 -->
+<script type="text/html" id="search">
+  {{each list v}}
+  <!--  遍历的数据可以取别名 v. -->
+    <tr>
+        <td><img src="{{v.icon}}" alt="" /></td>
+      <td>{{v.name}}</td>
+      <td>{{v.skill}}</td>
+      <td>
+        <button onclick="location.href='./edit.html'" class="btn btn-primary">编辑</button>
+        <button data-id= '{{v.id}}' class="btn btn-danger">删除</button>
+      </td>
+    </tr>
+  {{/each}}
+</script>
+
+
+<script>
+  //一.获取所有英雄
+  // 1.一进到首页就发送ajax请求, 获取所有的英雄数据
+  // 2.将ajax请求封装起来,需要时调用
+  function getHero() {
+    $.ajax({
+      url: 'http://localhost:4399/hero/all',
+      success: function (Data) {
+        console.log(Data);
+        // 2.根据模板引擎把英雄数据生成的页面结构渲染到页面
+        var newHtml = template('cq', Data)
+        $('tbody').html(newHtml)
+      }
+    })
+  }
+  //打开页面调用一次,获取所有英雄
+  getHero()
+
+  //二.删除英雄
+  //1.删除按钮们是页面进来发送ajax请求得到数据后动态生成的, 所以要委托注册.
+  $('tbody').on('click', '.btn-danger', function () {
+    // 2.确认一下, 是否是真的要删 ?
+    var that = this
+    if (confirm('确定删除此英雄吗?')) {
+      //3.点击删除按钮, 删谁 ? 删哪条数据, 是不是可以通过id来指定.
+      var id = $(this).attr('data-id')
+      //确定删除id后,发送ajax请求
+      $.ajax({
+        type: 'get',
+        url: 'http://localhost:4399/hero/delete',
+        data: {
+          id: id
+        },
+        success: function (Data) {
+          alert(Data.msg)
+          // 4.删除成功后, 要显示新的数据, 这样用户体验才好啊.
+          //a.再次发送ajax请求得到删除该英雄后的新数据, 重新渲染一次到页面.
+          // getHero()
+
+          //b.但是如果数据量很大的话, 上面这种操作就会很耗时间很耗性能, 那我们就可以搞一个障眼法.
+          //反正数据是删了的.那这里我们就可以移除这一行就ok.
+          $(that).parent().parent().remove()
+        }
+      })
+    }
+  })
+
+  //三.编辑英雄
+  //   1.点击编辑按钮 去到编辑页面
+  $('tbody').on('click','.btn-primary',function(){
+    
+    // 注意: 在点击编辑按钮,那个点击事件中. 修改location.hreft那里, url后面要带过去当前这条数据的id.          
+    window.location = './edit.html?id='+$(this).next().attr('data-id')
+  })
+  
+
+  //四.查找英雄
+  $('.btn-default').on('click',function(e){
+    e.preventDefault();
+    var search = $('.form-control').val().trim();
+    var arr = []
+    $.ajax({
+      url: 'http://localhost:4399/hero/all',
+      success: function(Data){
+        console.log(Data);
+        console.log($(Data)[0].data)
+        for(let i=0;i<$(Data)[0].data.length;i++){
+          console.log(i);
+          if($(Data)[0].data[i].name.indexOf(search) != -1){
+            arr.push($(Data)[0].data[i])
+          }
+        }
+        var newHtml = template('search',{list:arr})
+        $('tbody').html(newHtml)
+      }
+    })
+  })
+</script>

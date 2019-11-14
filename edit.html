@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bootstrap 101 Template</title>
+
+  <!-- Bootstrap -->
+  <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!--
+      HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <style>
+    .wrap {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/bg03.jpg') center bottom no-repeat;
+      overflow: auto;
+    }
+
+    .navbar-brand {
+      padding: 10px 15px;
+    }
+
+    .page-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .file-input {
+      outline: none;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-horizontal {
+      margin-top: 10px;
+    }
+
+    .logout {
+      font-weight: 900;
+      font-size: 20px;
+      color: #ff0000;
+      text-decoration: none;
+    }
+
+    .logout:hover {
+      text-decoration: none;
+      color: yellowgreen;
+    }
+
+    .preview {
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <nav class="navbar  navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mymenu">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
+        </div>
+      </div>
+    </nav>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <div class="row">
+                <div class="col-md-6 page-title">英雄信息修改</div>
+                <div class="col-md-6 text-right">当前位置：首页 &gt; 英雄信息修改</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <form action="#" method="" class="form-horizontal">
+                <!-- 隐藏一个input -->
+                <input type="hidden" name="id" id="heroID" />
+                <div class="form-group">
+                  <label for="heroName" class="col-sm-2 control-label">姓名</label>
+                  <div class="col-sm-10">
+                    <input required type="text" class="form-control" id="heroName" name="name" placeholder="请输入姓名"
+                      value="盖伦" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="skillName" class="col-sm-2 control-label">技能</label>
+                  <div class="col-sm-10">
+                    <input required type="text" class="form-control" id="skillName" name="skill" placeholder="请输入技能"
+                      value="躲草丛" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="heroIcon" class="col-sm-2 control-label">头像</label>
+                  <div class="col-sm-10">
+                    <img src="lib/img/盖伦.png" alt="" id="heroImg" height='120px'>
+                    <input required type="file" class="file-input" id="heroIcon" name="icon" />
+                    <!-- 预览的标签 -->
+                    <img src="" class="preview" alt="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary btn-save">
+                      保存
+                    </button>
+                    <button type="submit" class="btn btn-cancel">取消</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="./lib/bootstrap/js/jquery-1.12.4.js"></script>
+<!--
+  Include all compiled plugins (below), or include individual files as needed
+-->
+<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+<script>
+// 在编辑页面显示 你现在点击要编辑的这一条数据.
+
+// 去到编辑页面,拿到你通过拼接url的方式,传过来的id.
+//           window.location.search 属性,就可以获取到当前url中?号和?号后面的内容,再利用字符串分割获取到id
+var id = window.location.search.split("=")[1]
+$.ajax({
+  url: 'http://localhost:4399/hero/id',
+  data: {
+    id:id
+  },
+  success: function(Data){
+    $('#heroName').val(Data.data.name);
+    $('#skillName').val(Data.data.skill);
+    $('#heroImg').attr('src',Data.data.icon);
+    $('#heroID').val(id)
+  }
+})
+// 2.在编辑页面点击保存, 发送ajax请求.获取编辑后的数据, 把原来的数据给修改一下.
+$('.btn-save').on('click',function(e){
+  e.preventDefault();
+  var fd = new FormData($('.form-horizontal')[0])
+  // fd.append(id)
+  $.ajax({
+    type: 'post',
+    url: 'http://localhost:4399/hero/update',
+    data:fd,
+    contentType:false,
+    processData:false,
+    success: function(Data){
+      console.log(Data);
+      
+      alert(Data.msg);
+      if(Data.code == 202){
+        window.location= './index.html';
+      }
+    }
+  })
+})
+//   2.1  图片预览
+$('#heroIcon').on('change',function(){
+  var iconPic = this.files[0]
+  var url = URL.createObjectURL(iconPic)
+  console.log(url);
+  $('#heroImg').attr('src',url)
+})
+
+//3.取消按钮
+$('.btn-cancel').on('click',function(e){
+  e.preventDefault()
+  window.location.href = './index.html'
+})
+</script>
